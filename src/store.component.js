@@ -1,24 +1,9 @@
 import React from 'react'
+import io from 'socket.io-client'
 
-const CTX = React.createContext();
+export const CTX = React.createContext();
 
-/*
-    msg {
-        from: 'user',
-        msg: 'hi',
-        group: 'group project name'    
-    }
-    
-    state {
-        group1: [
-            {msg} {msg} {msg}
-        ]
-        group2: [
-            
-        ]
-    }
 
-*/
 const initialState = {
     general: [
         {
@@ -65,7 +50,14 @@ function reducer(state, action) {
     }
 }
 
+// initilizing socket, don't want to re-render every time Store reloads
+let socket;
+
 export default function Store(props) {
+    
+    if (!socket) {
+        socket = io(':3001')
+    }
     
     const reducerHook = React.useReducer(reducer, initialState)
     

@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 
 import { CTX } from './store.component'
 
-
+// youtube video: 36:26
 
 
 const useStyles = makeStyles(theme => ({
@@ -68,25 +68,28 @@ export default function Dashboard() {
     
     // CTX store
     const [allChats] = React.useContext(CTX)
+    const groups = Object.keys(allChats)
     
-    console.log({allChats})
+    // local state
+    const [activeTopic, changeActiveTopic] = React.useState(groups[0])
+    
     const [textValue, setTextValue] = React.useState('')
     
     return (
         <div className = {classes.root}>
             <Paper elevation={5} >
                 <div className={classes.content}>
-                <Typography className={classes.heading} variant="h5"gutterBottom>Chat Room Title</Typography>
-                <Typography className={classes.topic} variant="subtitle2" gutterBottom>Topic</Typography>
+                <Typography className={classes.heading} variant="h5" gutterBottom>Chat Room Title</Typography>
+                <Typography className={classes.topic} variant="subtitle2" gutterBottom>{activeTopic}</Typography>
 
                 <div className={classes.flex}>
                     <div className={classes.userWindow}>
                         <List>
                             {/* mapping over data to display */}
                             {
-                                ['chasmoney', 'youngwonee', 'ddd', 'odat', 'osat'].map(user=> (
-                                    <ListItem key={user} button>
-                                        <ListItemText primary={user} />
+                                groups.map(group=> (
+                                    <ListItem onClick={e => changeActiveTopic(e.target.innerText) }key={group} button>
+                                        <ListItemText primary={group} />
                                      </ListItem>
                                 ))
                             }
@@ -94,10 +97,10 @@ export default function Dashboard() {
                     </div>
                     <div className={classes.chatWindow}>
                         {
-                            [{from: 'user', msg: 'hello'}].map((chat, i) => 
+                            allChats[activeTopic].map((chat, i) => 
                                 <div className={classes.flex} key={i}>
                                     <Chip label={chat.from} className={classes.chip} />
-                                    <Typography>{chat.msg}</Typography>
+                                    <Typography variant='body1' gutterBottom>{chat.msg}</Typography>
                                 </div>
                                 )
                         }
