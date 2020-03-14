@@ -5,31 +5,11 @@ export const CTX = React.createContext();
 
 
 const initialState = {
-    general: [
-        {
-            from: 'chanpion',
-            msg: 'ashley is supa bomb',
-        },
-        {
-            from: 'chanpion',
-            msg: 'like wow',
-            
-        },
-        {
-            from: 'chanpion',
-            msg: "i can't even",
-        },
-        {
-            from: 'ash',
-            msg: "i know rite",
-        },
+    group1: [
+        
     ],
-    teaParty: [
-        {
-            from: 'ash',
-            msg: "omg he's so cute",
-            group: 'chashmoney'
-        }
+    group2: [
+        
     ]
 }
 
@@ -49,20 +29,31 @@ function reducer(state, action) {
             return state
     }
 }
-
 // initilizing socket, don't want to re-render every time Store reloads
 let socket;
 
+function sendChatAction(value) {
+    socket.emit('chat message', value)
+    console.log(value)
+}
+
 export default function Store(props) {
+    
+    const [allChats, dispatch] = React.useReducer(reducer, initialState)
+
     
     if (!socket) {
         socket = io(':3001')
+        socket.on('chat message', msg => {
+            dispatch({type: 'RECEIVE_MESSAGE', payload: msg})
+        })
     }
     
-    const reducerHook = React.useReducer(reducer, initialState)
+    const user = 'user' + Math.random(100).toFixed(2)
+    
     
     return (
-        <CTX.Provider value={reducerHook}>
+        <CTX.Provider value={{allChats, sendChatAction, user}}>
             {props.children}
         </CTX.Provider>
     )

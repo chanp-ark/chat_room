@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     heading:{
         fontWeight: "500",
     },
-    topic: {
+    group: {
         borderBottom: "1px solid grey",
 
         margin: "0",
@@ -67,11 +67,11 @@ export default function Dashboard() {
     const classes = useStyles();
     
     // CTX store
-    const [allChats] = React.useContext(CTX)
+    const {allChats, sendChatAction, user} = React.useContext(CTX)
     const groups = Object.keys(allChats)
     
     // local state
-    const [activeTopic, changeActiveTopic] = React.useState(groups[0])
+    const [activeGroup, changeActiveGroup] = React.useState(groups[0])
     
     const [textValue, setTextValue] = React.useState('')
     
@@ -79,8 +79,8 @@ export default function Dashboard() {
         <div className = {classes.root}>
             <Paper elevation={5} >
                 <div className={classes.content}>
-                <Typography className={classes.heading} variant="h5" gutterBottom>Chat Room Title</Typography>
-                <Typography className={classes.topic} variant="subtitle2" gutterBottom>{activeTopic}</Typography>
+                <Typography className={classes.heading} variant="h5" gutterBottom>Chat App</Typography>
+                <Typography className={classes.group} variant="subtitle2" gutterBottom>{activeGroup}</Typography>
 
                 <div className={classes.flex}>
                     <div className={classes.userWindow}>
@@ -88,7 +88,7 @@ export default function Dashboard() {
                             {/* mapping over data to display */}
                             {
                                 groups.map(group=> (
-                                    <ListItem onClick={e => changeActiveTopic(e.target.innerText) }key={group} button>
+                                    <ListItem onClick={e => changeActiveGroup(e.target.innerText) }key={group} button>
                                         <ListItemText primary={group} />
                                      </ListItem>
                                 ))
@@ -97,7 +97,7 @@ export default function Dashboard() {
                     </div>
                     <div className={classes.chatWindow}>
                         {
-                            allChats[activeTopic].map((chat, i) => 
+                            allChats[activeGroup].map((chat, i) => 
                                 <div className={classes.flex} key={i}>
                                     <Chip label={chat.from} className={classes.chip} />
                                     <Typography variant='body1' gutterBottom>{chat.msg}</Typography>
@@ -118,7 +118,12 @@ export default function Dashboard() {
                     <Button 
                         className={classes.button}
                         variant="contained" 
-                        color="primary">
+                        color="primary"
+                        onClick={() => {
+                            sendChatAction({from: user, msg: textValue, group: activeGroup})
+                            setTextValue('')
+                        }}
+                        >
                         Send
                     </Button>
                 </div>
