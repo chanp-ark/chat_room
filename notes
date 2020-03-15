@@ -1,0 +1,9 @@
+front end
+    chatWindow
+        - needs a scrolling up function
+    
+backend
+    database
+        -mongodb set up
+        -mongoose set up
+    

@@ -58,7 +58,14 @@ const useStyles = makeStyles(theme => ({
         margin: '0',
     },
     chip: {
-        
+        backgroundColor: "#183FD2",
+        color: "white",
+        height: '1.5em',
+        marginRight: '0.5em',
+    },
+    sentChat: {
+        paddingTop: '0.5em',
+        fontSize: '0.9em'
     },
     
   }));
@@ -100,7 +107,7 @@ export default function Dashboard() {
                             allChats[activeGroup].map((chat, i) => 
                                 <div className={classes.flex} key={i}>
                                     <Chip label={chat.from} className={classes.chip} />
-                                    <Typography variant='body1' gutterBottom>{chat.msg}</Typography>
+                                    <Typography className={classes.sentChat} variant='body1' gutterBottom>{chat.msg}</Typography>
                                 </div>
                                 )
                         }
@@ -110,15 +117,23 @@ export default function Dashboard() {
                 </div>
                 <div className={classes.flex}>
                     <TextField 
-                        label="Send a chat" 
+                        label="Type your message..." 
                         className={classes.chatBox}    
                         value={textValue}
                         onChange={e => setTextValue(e.target.value)}
+                        onKeyPress={(e) => {
+                            console.log(e)
+                            if (e.key==="Enter") {
+                                sendChatAction({from: user, msg: textValue, group: activeGroup})
+                                setTextValue('')
+                            }
+                        }}
                     />
                     <Button 
                         className={classes.button}
                         variant="contained" 
                         color="primary"
+                        
                         onClick={() => {
                             sendChatAction({from: user, msg: textValue, group: activeGroup})
                             setTextValue('')
