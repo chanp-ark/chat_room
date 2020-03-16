@@ -43,7 +43,7 @@ export default function Store(props) {
 
     
     if (!socket) {
-        socket = io(':3001')
+        socket = io(':3500')
         socket.on('chat message', msg => {
             dispatch({type: 'RECEIVE_MESSAGE', payload: msg})
         })

@@ -17,7 +17,7 @@ io.on('connection', function(socket){
       });
 });
 
-http.listen(3001, () => console.log('listening on *:3001'))
+http.listen(3500, () => console.log('listening on *:3500'))
 
 
 // 1. Client connection

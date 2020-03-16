@@ -114,6 +114,12 @@ export default function Dashboard() {
                         className={classes.chatBox}    
                         value={textValue}
                         onChange={e => setTextValue(e.target.value)}
+                        onKeyPress={e => {
+                            if (e.key === 'Enter') {
+                                sendChatAction({from: user, msg: textValue, group: activeGroup})
+                                setTextValue('')
+                            }
+                        }}
                     />
                     <Button 
                         className={classes.button}
