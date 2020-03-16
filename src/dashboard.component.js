@@ -11,9 +11,6 @@ import TextField from '@material-ui/core/TextField';
 
 import { CTX } from './store.component'
 
-// youtube video: 36:26
-
-
 const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.spacing(3,2),
