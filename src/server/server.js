@@ -1,6 +1,9 @@
-let app = require('express')();
-let http = require('http').createServer(app);
-let io = require('socket.io')(http);
+const express = require('express');
+const app = express()
+const http = require('http').createServer(app);
+io = require('socket.io')(http);
+
+app.use(express.static(__dirname))
 
 app.get('/', (req,res) => {
     res.send('<h1>Hello World</h1>')

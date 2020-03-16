@@ -1,8 +1,6 @@
 import React from 'react';
-
-
-import Dashboard from "./dashboard.component"
-import Store from "./store.component"
+import Dashboard from "./client/dashboard.component"
+import Store from "./client/store.component"
 
 import './App.css';
 
