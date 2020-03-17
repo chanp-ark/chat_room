@@ -1,6 +1,5 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,56 +8,8 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import { useStyles } from "./css/dashboard.styles"
 import { CTX } from './store.component'
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      padding: theme.spacing(3,2),
-      margin:"1em",
-      
-      minWidth: "500px",
-      
-    },
-    content: {
-        padding: "20px",
-    },
-    heading:{
-        fontWeight: "500",
-    },
-    group: {
-        borderBottom: "1px solid grey",
-
-        margin: "0",
-    },
-    flex: {
-        display: "flex",
-        alignItems: 'center',
-    },
-    userWindow: {
-        width: '30%',
-        height: '300px',
-        borderRight: "1px solid grey",
-    },
-    chatWindow:{
-        width: '70%',
-        height: '300px',
-        padding: '10px',
-    },
-    chatBox: {
-        display: "flex",
-        width: '85%',
-        justifyContent: "flex-end",
-        marginRight: "20px",
-    },
-    button: {
-        width: '15%',
-        margin: '0',
-    },
-    chip: {
-        
-    },
-    
-  }));
 
 export default function Dashboard() {
     const classes = useStyles();
@@ -113,6 +64,7 @@ export default function Dashboard() {
                         onChange={e => setTextValue(e.target.value)}
                         onKeyPress={e => {
                             if (e.key === 'Enter') {
+                                e.preventDefault()
                                 sendChatAction({from: user, msg: textValue, group: activeGroup})
                                 setTextValue('')
                             }
