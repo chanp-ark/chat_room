@@ -5,7 +5,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(3,2),
         margin:"1em",
-        
         minWidth: "500px",
         
       },
