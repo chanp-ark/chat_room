@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
 // @access  Public
 
 router.post('/', (req, res) => {
+    console.log(req.body)
     const newGroup = new Group({
         name: req.body.name,
     })
@@ -30,6 +31,7 @@ router.post('/', (req, res) => {
         }
     })
 })
+
 
 // @route   DELETE api/groups
 // @desc    Deletes a group
@@ -43,7 +45,4 @@ router.delete("/:id", (req, res) => {
 })
    
     
-
-
-
-module.exports = router
+module.exports = router;

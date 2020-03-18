@@ -7,7 +7,8 @@ const io = require('socket.io')(http);
 const groups = require('./routes/api/groups')
 
 // Bodyparser Middleware
-app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 
 // DB config
 const dbURL = require("./config/keys").mongoURI;
