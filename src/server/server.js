@@ -3,11 +3,12 @@ const app = express()
 const mongoose = require('mongoose');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-
 const groups = require('./routes/api/groups')
 
 // Bodyparser Middleware
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true})); // content-type: application/x-www-form-urlencoded
+app.use(express.json()); // content-type: application/json
+
 
 
 // DB config

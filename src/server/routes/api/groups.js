@@ -10,7 +10,7 @@ const Group = require('../../models/Group')
 router.get('/', (req, res) => {
     Group.find()
         // sort by date descending
-        .sort({ date: -1})
+        .sort(({ date: -1 }))
         .then(groups => res.json(groups))    
 })
 
@@ -30,6 +30,7 @@ router.post('/', (req, res) => {
             console.log("saved!")   
         }
     })
+    res.redirect('/')
 })
 
 
