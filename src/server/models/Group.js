@@ -5,6 +5,10 @@ let groupSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    chats: {
+        type: Array,
+        required: false
+    }
 },{
     timestamps: true
 })

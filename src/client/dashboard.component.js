@@ -13,6 +13,7 @@ import { useStyles } from "./css/dashboard.styles"
 import { CTX } from './store.component'
 
 export default function Dashboard() {
+    
     const classes = useStyles();
     
     // CTX pulling props out from store
@@ -23,6 +24,8 @@ export default function Dashboard() {
     const [activeGroup, changeActiveGroup] = React.useState(groups[0])
     
     const [textValue, setTextValue] = React.useState('')
+    
+    
     
     return (
         <div className = {classes.root}>
