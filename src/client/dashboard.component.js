@@ -73,8 +73,8 @@ export default function Dashboard() {
                     <div className={classes.flex}>
                         <div className={classes.userWindow}>
                             <List>
-                                {/* map over users to display*/}
-                                {
+                                {/* map over groups to display*/}
+                                {// commented out because it can't connect
                                     // allGroups.map(group=> (
                                     //     <ListItem onClick={e => changeActiveGroup(e.target.innerText)} key={group} button>
                                     //         <ListItemText primary={group} />
