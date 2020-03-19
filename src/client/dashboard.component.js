@@ -41,8 +41,8 @@ export default function Dashboard() {
     // initialize socket
     let socket;
     if (!socket) {
-        socket = io('3500')
-        socket.on('chat', msg => {
+        socket = io.connect('http://localhost/')
+        socket.on('connection', msg => {
             console.log(msg)
         })
     }
