@@ -2,7 +2,7 @@ const express = require('express');
 const app = express()
 const mongoose = require('mongoose');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http); //
+const io = require('socket.io')(80); //
 const groups = require('./routes/api/groups') // for routing to creating a new group after home page is set up
 
 // Bodyparser Middleware
@@ -23,11 +23,8 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 io.on('connection', socket => {
     console.log("a user has connected")
-    Chat.find().sort({createdAt: -1}).limit(10).exec((err, messages) => {
-        if (err) return console.error(err);
-    
         // Send the last messages to the user.
-        socket.emit('init', messages);
+      
       })
     // listen to connected users for a new message
     socket.on('chat', msg => {
@@ -45,6 +42,9 @@ io.on('connection', socket => {
         socket.broadcast.emit('push', msg)
     })
     
+    socket.on('disconnect', () => {
+        console.log("user has disconnected")
+    })
   
 })
 
