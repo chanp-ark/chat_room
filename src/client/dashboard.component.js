@@ -33,9 +33,12 @@ export default function Dashboard() {
     fetch(dbURL)
         .then(response => {
             if (response.status >= 400) throw new Error("bad response")
+            console.log(response)
+                console.log(response.status);
+                console.log(response.json());
             return response.json()
         })
-        .then(data => console.log('Success:', data))
+        .then(data => {console.log('Success:', data)})
         .catch(err => console.error("Error:", err))
         
     // initialize socket

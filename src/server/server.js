@@ -2,7 +2,7 @@ const express = require('express');
 const app = express()
 const mongoose = require('mongoose');
 const http = require('http').createServer(app);
-const io = require('socket.io')(80);
+const io = require('socket.io')(http); //
 const groups = require('./routes/api/groups') // for routing to creating a new group after home page is set up
 
 // Bodyparser Middleware
