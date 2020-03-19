@@ -14,6 +14,19 @@ router.get('/', (req, res) => {
         .then(groups => res.json(groups))    
 })
 
+
+// @route   GET api/groups/:id
+// @desc    Gets one group's data
+// @access  Public
+router.get('/:id', (req, res) => {
+    Group.findById(req.params.id)
+        // sort by date descending
+        .then(item => {
+            res.json(item)
+        })
+          
+})
+
 // @route   POST api/groups
 // @desc    Creates a group
 // @access  Public

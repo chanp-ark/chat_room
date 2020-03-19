@@ -7,7 +7,10 @@ let groupSchema = new mongoose.Schema({
     },
     chats: {
         type: Array,
-        required: false
+        chats: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Chat"
+        }]
     }
 },{
     timestamps: true

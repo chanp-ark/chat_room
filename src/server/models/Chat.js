@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const chatSchema = new mongoose.Schema({
-    msg: String,
-    // add username
+    content: String,
+    name: String,
 }, {
     timestamps: {createdAt: true, updatedAt: false},
 

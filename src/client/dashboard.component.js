@@ -8,23 +8,57 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import io from 'socket.io-client'
+import "isomorphic-fetch" // to use fetch
+
 import NewGroup from "./newGroup.component"
 import { useStyles } from "./css/dashboard.styles"
-import { CTX } from './store.component'
 
 export default function Dashboard() {
     
+    // style
     const classes = useStyles();
     
-    // CTX pulling props out from store
-    const {allChats, sendChatAction, user} = React.useContext(CTX)
-    const groups = Object.keys(allChats)
+    // get initial State from db
+    const initialState = {
+        group1: [
+            
+        ],
+        group2: [
+            
+        ]
+    }
     
-    // local state
-    const [activeGroup, changeActiveGroup] = React.useState(groups[0])
+    const dbURL = require("../server/config/keys")
+    fetch(dbURL)
+        .then(response => {
+            if (response.status >= 400) throw new Error("bad response")
+            return response.json()
+        })
+        .then(data => console.log('Success:', data))
+        .catch(err => console.error("Error:", err))
+        
+    // initialize socket
+    let socket;
+    if (!socket) {
+        socket = io('3500')
+        socket.on('chat', msg => {
+            console.log(msg)
+        })
+    }
+    const sendChatAction = (value) => {
+        socket.emit('chat', value)
+        console.log(value)
+    }
     
+    // get all groups
+    const [allGroups, updateAllGroups] = React.useState(initialState)
+    
+    // get active group 
+    const [activeGroup, changeActiveGroup] = React.useState(initialState[0])
+    
+    // for outbound chat box
     const [textValue, setTextValue] = React.useState('')
-    
     
     
     return (
@@ -41,17 +75,17 @@ export default function Dashboard() {
                             <List>
                                 {/* map over users to display*/}
                                 {
-                                    groups.map(group=> (
-                                        <ListItem onClick={e => changeActiveGroup(e.target.innerText) }key={group} button>
-                                            <ListItemText primary={group} />
-                                        </ListItem>
-                                    ))
+                                    // allGroups.map(group=> (
+                                    //     <ListItem onClick={e => changeActiveGroup(e.target.innerText)} key={group} button>
+                                    //         <ListItemText primary={group} />
+                                    //     </ListItem>
+                                    // ))
                                 }
                             </List>
                         </div>
                         <div className={classes.chatWindow}>
                             {/* display chat from mongoLab */}
-                            {
+                            {/* {
                                 allChats[activeGroup].map((chat, i) => 
                                     <div className={classes.flex} key={i}>
                                         <Chip label={chat.from} className={classes.chip} />
@@ -59,7 +93,7 @@ export default function Dashboard() {
                                     </div>
                                     )
                             }
-                            
+                             */}
                         </div>
                         
                     </div>
@@ -72,7 +106,8 @@ export default function Dashboard() {
                             onKeyPress={e => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault()
-                                    sendChatAction({from: user, msg: textValue, group: activeGroup})
+                                    sendChatAction({msg: textValue, group: activeGroup})
+                                    // save chat into db
                                     setTextValue('')
                                 }
                             }}
@@ -82,8 +117,10 @@ export default function Dashboard() {
                             variant="contained" 
                             color="primary"
                             onClick={() => {
-                                sendChatAction({from: user, msg: textValue, group: activeGroup})
+                                sendChatAction({msg: textValue, group: activeGroup})
+                                // save chat into db
                                 setTextValue('')
+                                
                             }}
                             >
                             Send
